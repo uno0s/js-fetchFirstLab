@@ -5,10 +5,28 @@
 "https://jsonplaceholder.typicode.com/users - адреса куди робити запит"
 
 
-function updateUser(id, updatedData) {
-  // Ваш код
-}
+const URL = "https://jsonplaceholder.typicode.com/users";
 
-console.log(updateUser(1, { name: 'New Name' }));
+async function updateUser(id, updatedData) {
+  try {
+    const userUrl = `${URL}/${id}`;
+    const response = await fetch(userUrl, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(updatedData)
+    });
+    if (!response.ok) {
+      throw new Error(`Помилка HTTP: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Помилка при оновленні:", error);
+  }
+}
+updateUser(1, { name: 'New Name' })
+  .then(data => console.log("Оновлені дані:", data));
 
 module.exports = updateUser;

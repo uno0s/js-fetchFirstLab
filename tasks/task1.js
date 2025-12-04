@@ -4,10 +4,21 @@
 
 "https://jsonplaceholder.typicode.com/users - адреса куди робити запит"
 
-function fetchUsers() {
-  // Ваш код
+const URL = "https://jsonplaceholder.typicode.com/users";
+
+async function fetchUsers() {
+  try {
+    const response = await fetch(URL);
+    if (!response.ok) {
+      throw new Error(`HTTP помилка! статус: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Сталася помилка при запиті:", error);
+  }
 }
 
-console.log(fetchUsers())
+fetchUsers().then(data => console.log(data));
 
 module.exports = fetchUsers;
